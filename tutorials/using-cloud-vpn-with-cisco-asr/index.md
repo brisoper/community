@@ -843,6 +843,21 @@ Actual performance vary depending on the following factors:
 * High [RTT](https://wikipedia.org/wiki/RTT) and packet loss rates can greatly
   reduce throughput for TCP.
 
+#### On-premises Peer VPN Gateway IP Address Behind NAT
+
+If your on-premises peer VPN gateway is behind NAT, you may encounter errors related to your 
+gateway incorrectly identifying itself with an internal IP address. The problem is 
+described in greater detail here: 
+https://cloud.google.com/network-connectivity/docs/vpn/support/troubleshooting#gateways_behind_nat. 
+This situation can often be worked around by hard-coding your on-premises peer VPN gateway to identify 
+itself with the public-facing NAT IP address that Cloud VPN will see traffic from. 
+For example, if the IP address of your Cisco router's VPN-facing interface is 192.168.1.2, 
+and a NAT (such as a firewall) upstream is translating this address to 203.0.113.4, 
+the following Cisco commands may overcome the errors you are encountering:
+
+    crypto ikev2 profile VPN_SCALE_TEST_IKEV2_PROFILE
+     identity local address 203.0.113.4
+
 ## Testing the IPsec connection
 
 The IPsec tunnel can be tested from the router by using ICMP to ping a host on
